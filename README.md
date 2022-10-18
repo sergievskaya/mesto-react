@@ -28,3 +28,5 @@
   - Хуки.
 
 ## Ссылка на gh-pages:
+
+https://sergievskaya.github.io/mesto-react/
