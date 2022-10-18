@@ -24,10 +24,10 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, name, description, avata
             <section className="elements">
                 <ul className="elements__list">
                     {cards.map((card) => (
-                      <Card 
-                      key={card._id} 
-                      card={card} 
-                      onCardClick={onCardClick} />
+                        <Card 
+                        key={card._id} 
+                        card={card} 
+                        onCardClick={onCardClick} />
                     ))}
                 </ul>
             </section>
