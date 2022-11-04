@@ -28,7 +28,25 @@ class Api {
             .then((res) => this._checkStatus(res));
     }
 
-    editProfile(data) {
+    changeLikeCardStatus(cardId, isLiked) {
+        // добавить или убрать лайк
+        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+            method: `${isLiked ? 'PUT' : 'DELETE'}`,
+            headers: this._headers
+        })
+          .then((res) => this._checkStatus(res));
+    }
+
+    deleteCard(cardId) {
+        //удалить карточку delete
+        return fetch(`${this._baseUrl}/cards/${cardId}`, {
+            method: 'DELETE',
+            headers: this._headers
+        })
+          .then((res) => this._checkStatus(res));
+    }
+
+    setUserInfo(data) {
         //заменить данные пользователя patch
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
@@ -36,6 +54,18 @@ class Api {
             body: JSON.stringify({
               name: data.name,
               about: data.about
+            })
+        })
+            .then((res) => this._checkStatus(res));
+    }
+
+    setUserAvatar(data) {
+        // заменить аватар patch
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+              avatar: data.avatar,
             })
         })
             .then((res) => this._checkStatus(res));
@@ -54,44 +84,6 @@ class Api {
             .then((res) => this._checkStatus(res));
     }
 
-    deleteCard(cardId) {
-        //удалить карточку delete
-        return fetch(`${this._baseUrl}/cards/${cardId}`, {
-            method: 'DELETE',
-            headers: this._headers
-        })
-          .then((res) => this._checkStatus(res));
-    }
-
-    addLikeCard(cardId) {
-        //добавить лайк карточки put
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'PUT',
-            headers: this._headers
-        })
-          .then((res) => this._checkStatus(res));
-    }
-
-    deleteLikeCard(cardId) {
-        // удалить лайк карточки delete
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'DELETE',
-            headers: this._headers
-        })
-          .then((res) => this._checkStatus(res));
-    }
-
-    editAvatar(data) {
-        // заменить аватар patch
-        return fetch(`${this._baseUrl}/users/me/avatar`, {
-            method: 'PATCH',
-            headers: this._headers,
-            body: JSON.stringify({
-              avatar: data.avatar,
-            })
-        })
-            .then((res) => this._checkStatus(res));
-    }
 }
 
 const api = new Api({
