@@ -4,7 +4,6 @@ import api from '../utils/api';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -17,6 +16,7 @@ function App() {
     const [cards, setCards] = React.useState([]);
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
+    const [isLoading, setIsLoading] = React.useState(false);
 
     React.useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -76,6 +76,7 @@ function App() {
     }
 
     function handleUpdateUser(newUserData) {
+        setIsLoading(true);
         api.setUserInfo(newUserData)
             .then((userData) => {
                 setCurrentUser(userData);
@@ -83,10 +84,14 @@ function App() {
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }
 
     function handleUpdateAvatar(newUserData) {
+        setIsLoading(true);
         api.setUserAvatar(newUserData)
             .then((userData) => {
                 setCurrentUser(userData);
@@ -94,10 +99,14 @@ function App() {
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }
 
     function handleAddPlaceSubmit(card) {
+        setIsLoading(true);
         api.addNewCard(card)
             .then((newCard) => {
                 setCards([newCard, ...cards]);
@@ -105,6 +114,9 @@ function App() {
             })
             .catch((err) => {
                 console.log(`Ошибка: ${err}`);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }
 
@@ -127,25 +139,20 @@ function App() {
                 isOpen={isEditProfilePopupOpen}
                 onClose={closeAllPopups}
                 onUpdateUser={handleUpdateUser}
+                isLoading={isLoading}
             />
 
             <EditAvatarPopup 
                 isOpen={isEditAvatarPopupOpen} 
                 onClose={closeAllPopups}
                 onUpdateAvatar={handleUpdateAvatar}
+                isLoading={isLoading}
             />
 
             <AddPlacePopup 
                 isOpen={isAddPlacePopupOpen}
                 onClose={closeAllPopups}
                 onAddPlace={handleAddPlaceSubmit}
-            />
-            
-            <PopupWithForm 
-                name='delete-card'
-                title='Вы уверены?'
-                buttonText='Да'
-                onClose={closeAllPopups}
             />
 
             <ImagePopup 

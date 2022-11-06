@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({isOpen, onClose, onAddPlace}) {
+function AddPlacePopup({isOpen, onClose, onAddPlace, isLoading}) {
 
     const nameRef = React.useRef();
     const linkRef = React.useRef();
@@ -23,6 +23,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
             onClose={onClose}
             onSubmit={handleSubmit}
             buttonText='Создать'
+            isLoading={isLoading}
             children={ 
             <fieldset className="popup__fields">
                 <div className="popup__field">
