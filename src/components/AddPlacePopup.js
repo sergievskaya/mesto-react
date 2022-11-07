@@ -1,10 +1,15 @@
-import React from "react";
+import {useRef, useEffect} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({isOpen, onClose, onAddPlace, isLoading}) {
 
-    const nameRef = React.useRef();
-    const linkRef = React.useRef();
+    const nameRef = useRef();
+    const linkRef = useRef();
+
+    useEffect(() => {
+        nameRef.current.value = '';
+        linkRef.current.value = '';
+    }, [isOpen])
 
     function handleSubmit(evt) {
         evt.preventDefault();
@@ -24,7 +29,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace, isLoading}) {
             onSubmit={handleSubmit}
             buttonText='Создать'
             isLoading={isLoading}
-            children={ 
+        >
             <fieldset className="popup__fields">
                 <div className="popup__field">
                     <input
@@ -53,9 +58,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace, isLoading}) {
                     <span className="popup__input-error link-input-error"></span>
                 </div>
             </fieldset>
-            }
-        />
-
+        </PopupWithForm>
     );
 }
 

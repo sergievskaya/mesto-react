@@ -1,9 +1,13 @@
-import React from "react";
+import {useRef, useEffect} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading}) {
 
-    const avatarRef = React.useRef();
+    const avatarRef = useRef();
+
+    useEffect(() => {
+        avatarRef.current.value = '';
+    }, [isOpen])
 
     function handleSubmit(evt) {
         evt.preventDefault();
@@ -21,7 +25,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading}) {
             buttonText='Сохранить'
             onSubmit={handleSubmit}
             isLoading={isLoading}
-            children={
+        >
             <fieldset className="popup__fields">
                 <div className= "popup__field">
                     <input 
@@ -36,8 +40,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading}) {
                     <span className="popup__input-error avatar-input-error"></span>
                 </div>
             </fieldset>
-            }
-        />
+        </PopupWithForm>
     );
 }
 

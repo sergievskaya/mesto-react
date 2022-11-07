@@ -1,18 +1,18 @@
-import React from "react";
+import {useState, useEffect, useContext} from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
 function EditProfilePopup({isOpen, onClose, onUpdateUser, isLoading}) {
 
-    const currentUser = React.useContext(CurrentUserContext);
-    const [name, setName] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    const currentUser = useContext(CurrentUserContext);
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
 
     // После загрузки текущего пользователя из API, его данные будут использованы в управляемых компонентах.
-    React.useEffect(() => {
+    useEffect(() => {
         setName(currentUser.name);
         setDescription(currentUser.about);
-    }, [currentUser]); 
+    }, [currentUser, isOpen]); 
 
     function handleNameChange(evt) {
         setName(evt.target.value);
@@ -29,7 +29,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser, isLoading}) {
           name,
           about: description,
         });
-      }
+    }
 
     return(
         <PopupWithForm  
@@ -40,7 +40,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser, isLoading}) {
             buttonText='Сохранить'
             isLoading={isLoading}
             onSubmit={handleSubmit}
-            children={
+        >
             <fieldset className="popup__fields">
                 <div className="popup__field">
                     <input 
@@ -73,8 +73,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser, isLoading}) {
                     <span className="popup__input-error job-input-error"></span>
                 </div>
             </fieldset>
-            }
-        />
+        </PopupWithForm>
     );
 
 }
